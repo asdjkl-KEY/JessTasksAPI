@@ -1,13 +1,23 @@
 const express = require('express');
-const api = express();
+const app = express();
 const morgan = require('morgan');
+const _ = require('underscore');
 
 
-api.use(morgan("dev"));
-api.use(express.urlencoded({extended: false}));
-api.use(express.json());
+//configuraciones
+app.set('port', process.env.PORT || 4040);
+app.set("json spaces", 2);
 
+//middlewares
 
-app.listen(2525, () => {
-    console.log("API is Started on port 2525");
+app.use(morgan("dev"));
+app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+
+//rutas
+app.use(require('./router'));
+
+//API iniciada
+app.listen(app.get('port'), () => {
+    console.log("API is Started on port "+ app.get('port'));
 })
